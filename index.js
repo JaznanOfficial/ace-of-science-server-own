@@ -25,14 +25,28 @@ async function run() {
       await client.connect();
       const database = client.db("Ace-of-Science-own");
       const reviewCollection = database.collection("Review");
+      const blogCollection = database.collection("Blogs");
       // create a document to insert
-      
+
+      // Review Data post --------------------------->
         app.post('/review', async(req, res) => {
             const review = req.body;
-            const result = await reviewCollection.insertOne(review)
-            console.log(result);
+            const reviewResult = await reviewCollection.insertOne(review)
+            console.log(reviewResult);  
+        })
+      // review data post ----------------------------->
+      
+      
+
+
+      // blog data post------------------------------->
+        app.post('/blogs', async(req, res) => {
+            const blogs = req.body;
+            const blogResult = await blogCollection.insertOne(blogs)
+            console.log(blogResult);
             
         })
+      // blog data post
         
         
         
