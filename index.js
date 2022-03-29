@@ -30,9 +30,10 @@ async function run() {
 
       // Review Data post --------------------------->
         app.post('/review', async(req, res) => {
-            const review = req.body;
+          const review = req.body;
+
             const reviewResult = await reviewCollection.insertOne(review)
-            console.log(reviewResult);  
+            // console.log(reviewResult);  
         })
       // review data post ----------------------------->
       
@@ -41,12 +42,20 @@ async function run() {
 
       // blog data post------------------------------->
         app.post('/blogs', async(req, res) => {
-            const blogs = req.body;
+          const blogs = req.body;
+          console.log(blogs);
             const blogResult = await blogCollection.insertOne(blogs)
-            console.log(blogResult);
+            // console.log(blogResult);
             
         })
-      // blog data post
+      // blog data post--------------------------------->
+
+      // blog data get---------------------------------->
+      app.get('/blogs', async (req, res) => {
+        const cursor = blogCollection.find({});
+        const getBlog = await cursor.toArray();
+        res.send(getBlog);
+      })
         
         
         
