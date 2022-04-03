@@ -61,17 +61,15 @@ async function run() {
       
       // profile update post---------------------------->
 
-      // blog data post------------------------------->
+    
       app.post('/profile', async(req, res) => {
         const profile = req.body;
         console.log(profile);
-          const blogResult = await profileCollection.insertOne(profile)
-          // console.log(blogResult);
+          const profileResult = await profileCollection.insertOne(profile)
+          console.log(profileResult);
           
       })
-    // blog data post--------------------------------->
-
-
+      
       // profile update post---------------------------->
         
         
