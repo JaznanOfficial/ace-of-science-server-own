@@ -26,6 +26,7 @@ async function run() {
       const database = client.db("Ace-of-Science-own");
       const reviewCollection = database.collection("Review");
       const blogCollection = database.collection("Blogs");
+      const profileCollection = database.collection('Profile');
       // create a document to insert
 
       // Review Data post --------------------------->
@@ -56,7 +57,22 @@ async function run() {
         const getBlog = await cursor.toArray();
         res.send(getBlog);
       })
-        
+        // blog data get-------------------------------->
+      
+      // profile update post---------------------------->
+
+      // blog data post------------------------------->
+      app.post('/profile', async(req, res) => {
+        const profile = req.body;
+        console.log(profile);
+          const blogResult = await profileCollection.insertOne(profile)
+          // console.log(blogResult);
+          
+      })
+    // blog data post--------------------------------->
+
+
+      // profile update post---------------------------->
         
         
       
