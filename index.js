@@ -66,11 +66,25 @@ async function run() {
         const profile = req.body;
         console.log(profile);
           const profileResult = await profileCollection.insertOne(profile)
-          console.log(profileResult);
+          // console.log(profileResult);
           
       })
       
       // profile update post---------------------------->
+
+      // blog data get---------------------------------->
+      app.get('/profile', async (req, res) => {
+        const cursor = profileCollection.find({});
+        const getProfile = await cursor.toArray();
+        res.send(getProfile);
+      })
+        // blog data get-------------------------------->
+
+
+
+
+
+
         
         
       
