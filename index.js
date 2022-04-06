@@ -38,6 +38,15 @@ async function run() {
             // console.log(reviewResult);  
         })
       // review data post ----------------------------->
+
+
+      // Review Data get --------------------------->
+        app.get('/review', async(req, res) => {
+          const cursor = reviewCollection.find({});
+        const getReview = await cursor.toArray();
+        res.send(getReview); 
+        })
+      // review data get ----------------------------->
       
       
 
