@@ -47,7 +47,20 @@ async function run() {
         res.send(getReview); 
         })
       // review data get ----------------------------->
-      
+       // review data delete------------------------------>
+
+       app.delete('/review/:id', async (req, res) => {
+        // console.log(req.params.id);
+        const id = req.params.id;
+        const query = { _id: ObjectId(id) };
+        const result = await reviewCollection.deleteOne(query)
+        // console.log(result);
+        res.json(result)
+        })
+
+
+
+      // review data delete------------------------------>
       
 
 
