@@ -35,7 +35,7 @@ async function run() {
           const review = req.body;
 
             const reviewResult = await reviewCollection.insertOne(review)
-            // console.log(reviewResult);  
+          res.send(reviewResult)
         })
       // review data post ----------------------------->
 
