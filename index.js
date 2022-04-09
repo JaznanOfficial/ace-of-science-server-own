@@ -2,6 +2,7 @@ const express = require('express');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 require('dotenv').config()
 const ObjectId = require('mongodb').ObjectId;
+
 const app = express();
 const port = process.env.PORT || 5000;
 const cors = require('cors');
@@ -75,6 +76,19 @@ async function run() {
         })
       // blog data post--------------------------------->
 
+      // single blog data get---------------------------------->
+      app.get('/single-blog/:id', async (req, res) => {
+        console.log(req.params.id);
+        const id = req.params.id;
+        const query = { _id: ObjectId(id) }
+        console.log(query);
+        const cursor = await blogCollection.findOne(query);
+        console.log(cursor);
+        res.send(cursor);
+      })
+        // single blog data get-------------------------------->
+      
+      
       // blog data get---------------------------------->
       app.get('/blogs', async (req, res) => {
         const cursor = blogCollection.find({});
@@ -82,6 +96,21 @@ async function run() {
         res.send(getBlog);
       })
         // blog data get-------------------------------->
+      
+       // blog data delete------------------------------>
+
+       app.delete('/blogs/:id', async (req, res) => {
+        // console.log(req.params.id);
+        const id = req.params.id;
+        const query = { _id: ObjectId(id) };
+        const result = await blogCollection.deleteOne(query)
+        console.log(result);
+        res.json(result)
+        })
+
+
+
+      // blog data delete------------------------------>
       
       // profile update post---------------------------->
 
@@ -104,20 +133,7 @@ async function run() {
       })
         // profile data get-------------------------------->
 
-      // blog data delete------------------------------>
-
-      app.delete('/blogs/:id', async (req, res) => {
-        // console.log(req.params.id);
-        const id = req.params.id;
-        const query = { _id: ObjectId(id) };
-        const result = await blogCollection.deleteOne(query)
-        console.log(result);
-        res.json(result)
-        })
-
-
-
-      // blog data delete------------------------------>
+     
 
 
 
