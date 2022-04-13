@@ -2,6 +2,7 @@ const express = require('express');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 require('dotenv').config()
 const ObjectId = require('mongodb').ObjectId;
+// const userEmail = require('mongodb').userEmail;
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -115,21 +116,37 @@ async function run() {
       // profile update post---------------------------->
 
     
-      app.post('/profile', async(req, res) => {
+      app.put('/profile/:userEmail', async(req, res) => {
         const profile = req.body;
-        console.log(profile);
-          const profileResult = await profileCollection.insertOne(profile)
-          // console.log(profileResult);
-          res.json(profileResult)
+        const userEmail = req.params.userEmail;
+        // console.log(profile, userEmail);
+        const query = { userEmail: userEmail };
+        const options = { upsert: true };
+        const updateUser = {
+          $set: {
+            address: profile.address,
+            school: profile.school,
+            phone: profile.phone,
+            profession: profile.profession
+          }
+        }
+          const profileResult = await profileCollection.updateOne(query,updateUser,options)
+          console.log(profileResult);
+          // res.json(profileResult)
       })
       
       // profile update post---------------------------->
 
       // profile data get---------------------------------->
-      app.get('/profile', async (req, res) => {
-        const cursor = profileCollection.find({});
-        const getProfile = await cursor.toArray();
-        res.send(getProfile);
+      app.get('/profile/:userEmail', async (req, res) => {
+        const userEmail = req.params.userEmail;
+        const query = { userEmail: userEmail };
+        
+        
+        const cursor = await profileCollection.findOne(query);
+        console.log(cursor);
+        
+        res.send(cursor);
       })
         // profile data get-------------------------------->
 
