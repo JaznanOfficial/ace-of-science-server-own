@@ -138,13 +138,19 @@ async function run() {
       // profile update post---------------------------->
 
       // profile data get---------------------------------->
-      app.get('/profile/:userEmail', async (req, res) => {
-        const userEmail = req.params.userEmail;
-        const query = { userEmail: userEmail };
+      app.get('/profile', async (req, res) => {
+        console.log(req.query);
+        console.log(req.headers);
+        let query = {}
+        const userEmail = req.query.email;
+        if (userEmail) {
+          query = { userEmail: userEmail }; 
+        }
+
         
         
         const cursor = await profileCollection.findOne(query);
-        console.log(cursor);
+        // console.log(cursor);
         
         res.send(cursor);
       })
