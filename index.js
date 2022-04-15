@@ -21,8 +21,7 @@ admin.initializeApp({
 app.use(cors());
 app.use(express.json());
 
-// user: Ace-of-Science-own
-// pass: ksm3x8TJl7yzyNBm
+
 
 // connecting database ---------------------->
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.rrls8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
@@ -45,7 +44,7 @@ async function verifyToken(req, res, next) {
             req.decodedEmail = decodedUser.email;
         } catch {}
     }
-
+    res.header("Access-Control-Allow-Origin", "*")
     next();
 }
 // verify token------------------------->
