@@ -98,7 +98,7 @@ async function run() {
         });
         // blog data post--------------------------------->
 
-        // single blog data get---------------------------------->
+        // single blog data get--------------------->
         app.get("/single-blog/:id", async (req, res) => {
             // console.log(req.params.id);
             const id = req.params.id;
