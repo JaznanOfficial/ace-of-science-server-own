@@ -36,7 +36,7 @@ const client = new MongoClient(uri, {
 // verify token----------------------->
 
 async function verifyToken(req, res, next) {
-    res.header({"Access-Control-Allow-Origin": "https://warm-citadel-00877.herokuapp.com/"})
+    req.header('Access-Control-Allow-Origin', '*')
     if (req.headers?.authorization?.startsWith("Bearer ")) {
         const idToken = req.headers.authorization.split("Bearer ")[1];
         try {
