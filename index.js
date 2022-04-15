@@ -7,12 +7,15 @@ const ObjectId = require("mongodb").ObjectId;
 const app = express();
 const port = process.env.PORT || 5000;
 const cors = require("cors");
-
+// const privateKey = process.env.FIREBASE_SERVICE_ACCOUNT
+//     ? process.env.FIREBASE_SERVICE_ACCOUNT.replace(/\n/g, "\n")
+//     : undefined;
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
 // firebase admin initialization
 
 var admin = require("firebase-admin");
 
-var serviceAccount = require("./ace-of-science-firebase-adminsdk-nn20j-432cb86bc9.json");
+
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -36,10 +39,10 @@ const client = new MongoClient(uri, {
 // verify token----------------------->
 
 async function verifyToken(req, res, next) {
-    req.header('Access-Control-Allow-Origin', '*')
     if (req.headers?.authorization?.startsWith("Bearer ")) {
-        const idToken = req.headers.authorization.split("Bearer ")[1];
         try {
+            res.header(Access-Control-Allow-Origin, '*')
+            const idToken = req.headers.authorization.split("Bearer ")[1];
             const decodedUser = await admin.auth().verifyIdToken(idToken);
             // console.log('email',decodedUser.email);
             req.decodedEmail = decodedUser.email;
