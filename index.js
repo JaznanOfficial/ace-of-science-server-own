@@ -133,10 +133,10 @@ async function run() {
 
         // profile update post---------------------------->
 
-        app.put("/profile/:userEmail", async (req, res) => {
+        app.put("/profile", async (req, res) => {
             const profile = req.body;
-            const userEmail = req.params.userEmail;
-            // console.log(profile, userEmail);
+            const userEmail = req.query.email;
+            console.log(profile, userEmail);
             const query = { userEmail: userEmail };
             const options = { upsert: true };
             const updateUser = {
@@ -149,7 +149,7 @@ async function run() {
             };
             const profileResult = await profileCollection.updateOne(query, updateUser, options);
             console.log(profileResult);
-            // res.json(profileResult)
+            res.json(profileResult)
         });
 
         // profile update post---------------------------->
