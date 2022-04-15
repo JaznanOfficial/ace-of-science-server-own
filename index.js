@@ -42,9 +42,9 @@ async function verifyToken(req, res, next) {
             const decodedUser = await admin.auth().verifyIdToken(idToken);
             // console.log('email',decodedUser.email);
             req.decodedEmail = decodedUser.email;
+            res.header("Access-Control-Allow-Origin", "*")
         } catch {}
     }
-    res.header("Access-Control-Allow-Origin", "*")
     next();
 }
 // verify token------------------------->
