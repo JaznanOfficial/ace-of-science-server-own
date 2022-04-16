@@ -8,12 +8,10 @@ const app = express();
 const port = process.env.PORT || 5000;
 const cors = require("cors");
 
-const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 // firebase admin initialization
 
 var admin = require("firebase-admin");
-
-
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -21,8 +19,6 @@ admin.initializeApp({
 
 app.use(cors());
 app.use(express.json());
-
-
 
 // connecting database ---------------------->
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.rrls8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
@@ -44,9 +40,8 @@ async function verifyToken(req, res, next) {
             const idToken = req.headers.authorization.split("Bearer ")[1];
             // console.log(idToken);
             const decodedUser = await admin.auth().verifyIdToken(idToken);
-            // console.log('email',decodedUser.email);
-            req.decodedEmail = decodedUser.email;
-            
+            // console.log("email", decodedUser.uid);
+            req.decodedUid = decodedUser.uid;
         } catch {}
     }
     next();
@@ -144,6 +139,8 @@ async function run() {
             const options = { upsert: true };
             const updateUser = {
                 $set: {
+                    userEmail: profile.userEmail,
+                    userUid: profile.userUid,
                     address: profile.address,
                     school: profile.school,
                     phone: profile.phone,
@@ -152,7 +149,7 @@ async function run() {
             };
             const profileResult = await profileCollection.updateOne(query, updateUser, options);
             console.log(profileResult);
-            res.json(profileResult)
+            res.json(profileResult);
         });
 
         // profile update post---------------------------->
@@ -161,17 +158,18 @@ async function run() {
         app.get("/profile", verifyToken, async (req, res) => {
             // console.log(req.headers.authorization);
 
-            const userEmail = req.query.email;
-            // console.log(userEmail);
+            const userUid = req.query.uid;
+            console.log(userUid);
 
-            if (req.decodedEmail === userEmail) {
-                const query = { userEmail: userEmail };
+            if (req.decodedUid === userUid) {
+                const query = { userUid: userUid };
                 const cursor = await profileCollection.findOne(query);
                 res.send(cursor);
-          }
-            else {
-              res.status(401).send('You Have No Permission to access this data. Cause you are not authorized')
-          }
+            } else {
+                res.status(401).send(
+                    "You Have No Permission to access this data. Cause you are not authorized"
+                );
+            }
             // console.log(cursor);
         });
         // profile data get-------------------------------->
