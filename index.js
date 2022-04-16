@@ -37,11 +37,12 @@ const client = new MongoClient(uri, {
 // verify token----------------------->
 
 async function verifyToken(req, res, next) {
-    console.log(req.headers.authorization);
+    // console.log(req.headers.authorization);
     if (req.headers?.authorization?.startsWith("Bearer ")) {
         try {
-            res.header(Access-Control-Allow-Origin, '*')
+            // res.header(Access-Control-Allow-Origin, '*')
             const idToken = req.headers.authorization.split("Bearer ")[1];
+            // console.log(idToken);
             const decodedUser = await admin.auth().verifyIdToken(idToken);
             // console.log('email',decodedUser.email);
             req.decodedEmail = decodedUser.email;
@@ -158,9 +159,10 @@ async function run() {
 
         // profile data get---------------------------------->
         app.get("/profile", verifyToken, async (req, res) => {
-            console.log(req.headers.authorization);
+            // console.log(req.headers.authorization);
 
             const userEmail = req.query.email;
+            // console.log(userEmail);
 
             if (req.decodedEmail === userEmail) {
                 const query = { userEmail: userEmail };
