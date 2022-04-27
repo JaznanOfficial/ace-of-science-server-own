@@ -178,9 +178,9 @@ async function run() {
         // notes data------------------------------->
         app.post("/notes", async (req, res) => {
             const notes = req.body;
-            console.log(notes);
+            // console.log(notes);
             const notesResult = await noteCollection.insertOne(notes);
-            console.log(notesResult);
+            // console.log(notesResult);
             res.send(notesResult);
         });
 
@@ -188,6 +188,14 @@ async function run() {
             const cursor = noteCollection.find({});
             const getNotes = await cursor.toArray();
             res.send(getNotes);
+        });
+        app.delete("/notes/:id", async (req, res) => {
+            // console.log(req.params.id);
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await noteCollection.deleteOne(query);
+            // console.log(result);
+            res.json(result);
         });
         // notes data --------------------------------->
 
