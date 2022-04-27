@@ -55,6 +55,7 @@ async function run() {
         const reviewCollection = database.collection("Review");
         const blogCollection = database.collection("Blogs");
         const profileCollection = database.collection("Profile");
+        const noteCollection = database.collection("notes");
         // create a document to insert
 
         // Review Data post --------------------------->
@@ -173,6 +174,25 @@ async function run() {
             // console.log(cursor);
         });
         // profile data get-------------------------------->
+
+        // notes data------------------------------->
+        app.post("/notes", async (req, res) => {
+            const notes = req.body;
+            console.log(notes);
+            const notesResult = await noteCollection.insertOne(notes);
+            console.log(notesResult);
+            res.send(notesResult);
+        });
+
+        app.get("/notes", async (req, res) => {
+            const cursor = noteCollection.find({});
+            const getNotes = await cursor.toArray();
+            res.send(getNotes);
+        });
+        // notes data --------------------------------->
+
+
+
     } finally {
         //   await client.close();
     }
