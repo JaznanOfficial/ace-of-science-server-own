@@ -56,6 +56,7 @@ async function run() {
         const blogCollection = database.collection("Blogs");
         const profileCollection = database.collection("Profile");
         const noteCollection = database.collection("notes");
+        const eventCollection = database.collection("events");
         // create a document to insert
 
         // Review Data post --------------------------->
@@ -194,6 +195,29 @@ async function run() {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const result = await noteCollection.deleteOne(query);
+            // console.log(result);
+            res.json(result);
+        });
+        // notes data --------------------------------->
+        // events data------------------------------->
+        app.post("/event", async (req, res) => {
+            const event = req.body;
+            // console.log(event);
+            const eventResult = await eventCollection.insertOne(event);
+            console.log(eventResult);
+            res.send(eventResult);
+        });
+
+        app.get("/event", async (req, res) => {
+            const cursor = eventCollection.find({});
+            const getNotes = await cursor.toArray();
+            res.send(getNotes);
+        });
+        app.delete("/event/:id", async (req, res) => {
+            // console.log(req.params.id);
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await eventCollection.deleteOne(query);
             // console.log(result);
             res.json(result);
         });
