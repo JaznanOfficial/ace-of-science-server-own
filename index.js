@@ -8,14 +8,15 @@ const app = express();
 const port = process.env.PORT || 5000;
 const cors = require("cors");
 
-const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+// const serviceAccount = JSON.parse(`firebase-adminsdk-nn20j@ace-of-science.iam.gserviceaccount.com
+// `);
 // firebase admin initialization
-
-var admin = require("firebase-admin");
-
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-});
+// 
+// var admin = require("firebase-admin");
+// 
+// admin.initializeApp({
+    // credential: admin.credential.cert(serviceAccount),
+// });
 
 app.use(cors());
 app.use(express.json());
@@ -32,20 +33,20 @@ const client = new MongoClient(uri, {
 
 // verify token----------------------->
 
-async function verifyToken(req, res, next) {
-    // console.log(req.headers.authorization);
-    if (req.headers?.authorization?.startsWith("Bearer ")) {
-        try {
-            // res.header(Access-Control-Allow-Origin, '*')
-            const idToken = req.headers.authorization.split("Bearer ")[1];
-            // console.log(idToken);
-            const decodedUser = await admin.auth().verifyIdToken(idToken);
-            // console.log("email", decodedUser.uid);
-            req.decodedUid = decodedUser.uid;
-        } catch {}
-    }
-    next();
-}
+// async function verifyToken(req, res, next) {
+//     // console.log(req.headers.authorization);
+//     if (req.headers?.authorization?.startsWith("Bearer ")) {
+//         try {
+//             // res.header(Access-Control-Allow-Origin, '*')
+//             const idToken = req.headers.authorization.split("Bearer ")[1];
+//             // console.log(idToken);
+//             const decodedUser = await admin.auth().verifyIdToken(idToken);
+//             // console.log("email", decodedUser.uid);
+//             req.decodedUid = decodedUser.uid;
+//         } catch {}
+//     }
+//     next();
+// }
 // verify token------------------------->
 
 async function run() {
@@ -157,7 +158,7 @@ async function run() {
         // profile update post---------------------------->
 
         // profile data get---------------------------------->
-        app.get("/profile", verifyToken, async (req, res) => {
+        app.get("/profile", async (req, res) => {
             // console.log(req.headers.authorization);
 
             const userUid = req.query.uid;
